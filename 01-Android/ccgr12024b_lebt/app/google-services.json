@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1028247071733",
+    "project_id": "cc-2024b-mov-gr1-lebt",
+    "storage_bucket": "cc-2024b-mov-gr1-lebt.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1028247071733:android:da3e64e5377a8c557fcebc",
+        "android_client_info": {
+          "package_name": "com.example.ccgr12024b_lebt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhaWtcGUYhWcPLpsEChLCkZ_CmN-qO0wQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
