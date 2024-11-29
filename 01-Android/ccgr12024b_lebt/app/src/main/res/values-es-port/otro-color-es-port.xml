@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="perso">#F44336</color>
+    <string name="saludo">PORT ES</string>
+    <color name="persotext">#673AB7</color>
+</resources>

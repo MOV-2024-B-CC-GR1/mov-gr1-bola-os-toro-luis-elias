@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="perso">#FFC107</color>
+    <string name="saludo">LAND EN</string>
+    <color name="persotext">#4CAF50</color>
+</resources>
