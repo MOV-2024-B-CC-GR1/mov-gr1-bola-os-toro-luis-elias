@@ -1,15 +1,17 @@
 package com.example.deber
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.deber.data.DatabaseHelper
 import com.example.deber.data.Jugador
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var db: DatabaseHelper
     private lateinit var listView: ListView
@@ -36,6 +38,23 @@ class MainActivity : Activity() {
                 putExtra("id", jugador.id)
             }
             startActivity(intent)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu resource file
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_map -> {
+                // Launch MapActivity
+                startActivity(Intent(this, MapActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

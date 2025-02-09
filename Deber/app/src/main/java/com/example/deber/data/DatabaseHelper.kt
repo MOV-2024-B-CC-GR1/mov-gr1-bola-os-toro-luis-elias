@@ -9,7 +9,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "futbol.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2 // Incrementamos la versión
         private const val TABLE_JUGADORES = "jugadores"
     }
 
@@ -19,23 +19,29 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 nombre TEXT, 
                 posicion TEXT, 
-                numero INTEGER
+                numero INTEGER,
+                latitud REAL,   // Añadimos latitud
+                longitud REAL   // Añadimos longitud
             )
         """.trimIndent()
         db.execSQL(createTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_JUGADORES")
-        onCreate(db)
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE $TABLE_JUGADORES ADD COLUMN latitud REAL")
+            db.execSQL("ALTER TABLE $TABLE_JUGADORES ADD COLUMN longitud REAL")
+        }
     }
 
-    fun agregarJugador(nombre: String, posicion: String, numero: Int): Long {
+    fun agregarJugador(nombre: String, posicion: String, numero: Int, latitud: Double?, longitud: Double?): Long {
         val db = writableDatabase
         val values = ContentValues().apply {
             put("nombre", nombre)
             put("posicion", posicion)
             put("numero", numero)
+            put("latitud", latitud)
+            put("longitud", longitud)
         }
         val id = db.insert(TABLE_JUGADORES, null, values)
         db.close()
@@ -52,7 +58,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 cursor.getInt(0),
                 cursor.getString(1),
                 cursor.getString(2),
-                cursor.getInt(3)
+                cursor.getInt(3),
+                cursor.getDouble(4),
+                cursor.getDouble(5),
             )
             jugadores.add(jugador)
         }
@@ -65,7 +73,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT * FROM $TABLE_JUGADORES WHERE id=?", arrayOf(id.toString()))
         return if (cursor.moveToFirst()) {
-            val jugador = Jugador(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3))
+            val jugador = Jugador(
+                cursor.getInt(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getInt(3),
+                cursor.getDouble(4),
+                cursor.getDouble(5)
+            )
             cursor.close()
             jugador
         } else {
@@ -74,12 +89,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
     }
 
-    fun actualizarJugador(id: Int, nombre: String, posicion: String, numero: Int) {
+    fun actualizarJugador(id: Int, nombre: String, posicion: String, numero: Int, latitud: Double?, longitud: Double?) {
         val db = writableDatabase
         val values = ContentValues().apply {
             put("nombre", nombre)
             put("posicion", posicion)
             put("numero", numero)
+            put("latitud", latitud)
+            put("longitud", longitud)
         }
         db.update(TABLE_JUGADORES, values, "id=?", arrayOf(id.toString()))
         db.close()
