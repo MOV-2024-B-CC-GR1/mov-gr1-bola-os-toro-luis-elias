@@ -20,8 +20,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 nombre TEXT, 
                 posicion TEXT, 
                 numero INTEGER,
-                latitud REAL,   // Añadimos latitud
-                longitud REAL   // Añadimos longitud
+                latitud REAL,   
+                longitud REAL   
             )
         """.trimIndent()
         db.execSQL(createTable)
